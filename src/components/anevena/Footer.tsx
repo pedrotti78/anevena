@@ -8,7 +8,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1.3fr)_auto_auto]">
           <div>
-            <Logo className="h-7 w-auto brightness-0 invert" />
+            <Logo variant="white" className="h-7 w-auto" />
             <p className="mt-5 max-w-xs text-sm text-navy-foreground/60">
               Planta certa. Volume certo. Prazo combinado.
             </p>

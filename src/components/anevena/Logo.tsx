@@ -1,13 +1,20 @@
-import logo from "@/assets/anevena-logo.png.asset.json";
+import logoColor from "@/assets/anevena-logo-transparent.png";
+import logoWhite from "@/assets/anevena-logo-white.png";
 
-export function Logo({ className = "h-7" }: { className?: string }) {
+export function Logo({
+  className = "h-7",
+  variant = "color",
+}: {
+  className?: string;
+  variant?: "color" | "white";
+}) {
   return (
     <img
-      src={logo.url}
+      src={variant === "white" ? logoWhite : logoColor}
       alt="Anevena — planta certa, volume certo, prazo combinado"
       className={className}
-      width={480}
-      height={125}
+      width={1625}
+      height={326}
     />
   );
 }
