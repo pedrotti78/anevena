@@ -7,7 +7,7 @@ export function Logo({ className = "h-7" }: { className?: string }) {
       alt="Anevena — planta certa, volume certo, prazo combinado"
       className={className}
       width={480}
-      height={120}
+      height={125}
     />
   );
 }
