@@ -18,7 +18,7 @@ export function Footer() {
             <p className="eyebrow text-lime">Navegação</p>
             <ul className="mt-4 space-y-2.5 text-sm text-navy-foreground/70">
               <li>
-                <Link to="/produtos" className="hover:text-lime">
+                <Link to="/produtos" search={{ categoria: undefined }} className="hover:text-lime">
                   Produtos
                 </Link>
               </li>
