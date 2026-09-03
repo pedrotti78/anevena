@@ -18,7 +18,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-navy/15 bg-navy text-navy-foreground">
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 lg:px-8">
         <Link to="/" className="min-w-0" onClick={() => setOpen(false)}>
-          <Logo className="h-6 w-auto brightness-0 invert sm:h-7" />
+          <Logo variant="white" className="h-6 w-auto sm:h-7" />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
