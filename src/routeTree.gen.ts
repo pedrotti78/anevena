@@ -11,8 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as DisponibilidadeRouteImport } from './routes/disponibilidade'
+import { Route as ParaEmpresasRouteImport } from './routes/para-empresas'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as ProdutosRouteImport } from './routes/produtos'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as TermosRouteImport } from './routes/termos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,9 +29,24 @@ const ComoFuncionaRoute = ComoFuncionaRouteImport.update({
   path: '/como-funciona',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DisponibilidadeRoute = DisponibilidadeRouteImport.update({
   id: '/disponibilidade',
   path: '/disponibilidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParaEmpresasRoute = ParaEmpresasRouteImport.update({
+  id: '/para-empresas',
+  path: '/para-empresas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutosRoute = ProdutosRouteImport.update({
@@ -34,39 +54,97 @@ const ProdutosRoute = ProdutosRouteImport.update({
   path: '/produtos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/como-funciona': typeof ComoFuncionaRoute
+  '/contato': typeof ContatoRoute
   '/disponibilidade': typeof DisponibilidadeRoute
+  '/para-empresas': typeof ParaEmpresasRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/produtos': typeof ProdutosRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/como-funciona': typeof ComoFuncionaRoute
+  '/contato': typeof ContatoRoute
   '/disponibilidade': typeof DisponibilidadeRoute
+  '/para-empresas': typeof ParaEmpresasRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/produtos': typeof ProdutosRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/como-funciona': typeof ComoFuncionaRoute
+  '/contato': typeof ContatoRoute
   '/disponibilidade': typeof DisponibilidadeRoute
+  '/para-empresas': typeof ParaEmpresasRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/produtos': typeof ProdutosRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/como-funciona' | '/disponibilidade' | '/produtos'
+  fullPaths:
+    | '/'
+    | '/como-funciona'
+    | '/contato'
+    | '/disponibilidade'
+    | '/para-empresas'
+    | '/privacidade'
+    | '/produtos'
+    | '/sobre'
+    | '/termos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/como-funciona' | '/disponibilidade' | '/produtos'
-  id: '__root__' | '/' | '/como-funciona' | '/disponibilidade' | '/produtos'
+  to:
+    | '/'
+    | '/como-funciona'
+    | '/contato'
+    | '/disponibilidade'
+    | '/para-empresas'
+    | '/privacidade'
+    | '/produtos'
+    | '/sobre'
+    | '/termos'
+  id:
+    | '__root__'
+    | '/'
+    | '/como-funciona'
+    | '/contato'
+    | '/disponibilidade'
+    | '/para-empresas'
+    | '/privacidade'
+    | '/produtos'
+    | '/sobre'
+    | '/termos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComoFuncionaRoute: typeof ComoFuncionaRoute
+  ContatoRoute: typeof ContatoRoute
   DisponibilidadeRoute: typeof DisponibilidadeRoute
+  ParaEmpresasRoute: typeof ParaEmpresasRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   ProdutosRoute: typeof ProdutosRoute
+  SobreRoute: typeof SobreRoute
+  TermosRoute: typeof TermosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,11 +163,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComoFuncionaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/disponibilidade': {
       id: '/disponibilidade'
       path: '/disponibilidade'
       fullPath: '/disponibilidade'
       preLoaderRoute: typeof DisponibilidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/para-empresas': {
+      id: '/para-empresas'
+      path: '/para-empresas'
+      fullPath: '/para-empresas'
+      preLoaderRoute: typeof ParaEmpresasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produtos': {
@@ -99,14 +198,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProdutosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComoFuncionaRoute: ComoFuncionaRoute,
+  ContatoRoute: ContatoRoute,
   DisponibilidadeRoute: DisponibilidadeRoute,
+  ParaEmpresasRoute: ParaEmpresasRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   ProdutosRoute: ProdutosRoute,
+  SobreRoute: SobreRoute,
+  TermosRoute: TermosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
