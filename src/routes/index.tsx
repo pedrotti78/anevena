@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/anevena/Layout";
 import { VMark } from "@/components/anevena/Logo";
 import { ConsultaForm } from "@/components/anevena/ConsultaForm";
+import type { Categoria } from "@/lib/catalog";
 import greenhouse from "@/assets/greenhouse.jpg";
 import logistics from "@/assets/logistics.jpg";
 import invitro from "@/assets/invitro.jpg";
@@ -82,6 +83,7 @@ function Hero() {
           </Link>
           <Link
             to="/produtos"
+            search={{ categoria: undefined }}
             className="inline-flex items-center justify-center border border-navy-foreground/25 px-6 py-4 text-[11px] font-semibold tracking-[0.16em] uppercase transition-colors hover:border-lime hover:text-lime"
           >
             Conhecer o catálogo
@@ -214,7 +216,7 @@ function Conceito() {
   );
 }
 
-const categoriasHome = [
+const categoriasHome: { nome: Categoria; para: string; cta: string }[] = [
   {
     nome: "Ornamentais",
     para: "Garden centers, paisagistas, viveiristas e revendedores.",

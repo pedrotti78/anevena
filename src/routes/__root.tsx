@@ -77,21 +77,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Anevena — Fornecimento profissional de plantas e plântulas" },
+      {
+        name: "description",
+        content:
+          "Fornecedor de mudas e plântulas in vitro em escala para viveiros, garden centers, paisagismo e projetos ambientais. Planta certa, volume certo, prazo combinado.",
+      },
+      { name: "author", content: "Anevena" },
+      { property: "og:title", content: "Anevena — Previsibilidade de abastecimento" },
+      {
+        property: "og:description",
+        content:
+          "Plantas e plântulas profissionais, no volume certo e no prazo combinado. Consulte disponibilidade.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@anevena" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
