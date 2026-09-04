@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/anevena/Layout";
 import { VMark } from "@/components/anevena/Logo";
 import { ConsultaForm } from "@/components/anevena/ConsultaForm";
-import type { Categoria } from "@/lib/catalog";
+import { categorias } from "@/lib/catalog";
+import { useI18n } from "@/lib/i18n";
 import greenhouse from "@/assets/greenhouse.jpg";
 import logistics from "@/assets/logistics.jpg";
 import invitro from "@/assets/invitro.jpg";
@@ -47,11 +48,13 @@ function Home() {
 }
 
 function Hero() {
+  const { t } = useI18n();
+
   return (
     <section className="relative overflow-hidden bg-navy text-navy-foreground">
       <img
         src={greenhouse}
-        alt="Estufa comercial com lotes uniformes de plântulas em bandejas"
+        alt={t.home.heroAlt}
         width={1600}
         height={1008}
         className="absolute inset-0 h-full w-full object-cover opacity-15"
@@ -61,17 +64,15 @@ function Hero() {
           <span className="converge-in-left h-px w-16 bg-lime lg:w-28" />
           <VMark className="h-5 w-5 text-lime" />
           <span className="converge-in-right h-px w-16 bg-lime lg:w-28" />
-          <span className="eyebrow ml-2 text-navy-foreground/50">Dois fluxos. Um compromisso.</span>
+          <span className="eyebrow ml-2 text-navy-foreground/50">{t.common.doisFluxos}</span>
         </div>
 
         <h1 className="mt-8 max-w-4xl text-4xl leading-[1.05] font-semibold text-balance sm:text-6xl lg:text-7xl">
-          Previsibilidade que se planta.
-          <span className="block text-lime">Confiança que se colhe.</span>
+          {t.home.heroTitle1}
+          <span className="block text-lime">{t.home.heroTitle2}</span>
         </h1>
 
-        <p className="mt-7 max-w-xl text-lg text-navy-foreground/70">
-          Plantas e plântulas profissionais, no volume certo e no prazo combinado.
-        </p>
+        <p className="mt-7 max-w-xl text-lg text-navy-foreground/70">{t.home.heroSub}</p>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
@@ -79,64 +80,46 @@ function Hero() {
             className="group inline-flex items-center justify-center gap-2 bg-lime px-6 py-4 text-[11px] font-semibold tracking-[0.16em] text-lime-foreground uppercase transition-colors hover:bg-lime/85"
           >
             <VMark className="h-3 w-3 -translate-x-1 transition-transform group-hover:translate-x-0" />
-            Consultar disponibilidade
+            {t.common.consultarDisponibilidade}
           </Link>
           <Link
             to="/produtos"
             search={{ categoria: undefined }}
             className="inline-flex items-center justify-center border border-navy-foreground/25 px-6 py-4 text-[11px] font-semibold tracking-[0.16em] uppercase transition-colors hover:border-lime hover:text-lime"
           >
-            Conhecer o catálogo
+            {t.home.heroCta2}
           </Link>
         </div>
       </div>
 
       <div className="relative overflow-hidden border-t border-navy-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2 px-5 py-4 text-[11px] font-semibold tracking-[0.18em] text-navy-foreground/60 uppercase lg:px-8">
-          <span>Planta certa.</span>
+          <span>{t.home.tick1}</span>
           <span className="text-lime">•</span>
-          <span>Volume certo.</span>
+          <span>{t.home.tick2}</span>
           <span className="text-lime">•</span>
-          <span>Prazo combinado.</span>
+          <span>{t.home.tick3}</span>
         </div>
       </div>
     </section>
   );
 }
 
-const promessas = [
-  {
-    titulo: "Planta certa",
-    texto: "Espécie, padrão e condição adequados ao pedido.",
-  },
-  {
-    titulo: "Volume certo",
-    texto: "Disponibilidade e capacidade compatíveis com sua demanda.",
-  },
-  {
-    titulo: "Prazo combinado",
-    texto: "Planejamento e logística tratados como compromisso.",
-  },
-];
-
 function Promessa() {
+  const { t } = useI18n();
+
   return (
     <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <h2 className="text-3xl font-semibold text-balance sm:text-4xl">
-          Abastecimento não deveria ser uma incerteza.
-        </h2>
+        <h2 className="text-3xl font-semibold text-balance sm:text-4xl">{t.home.promessaTitle}</h2>
         <div className="space-y-4 text-base text-muted-foreground">
-          <p>
-            Quem depende de plantas para produzir, revender ou executar um projeto não pode
-            descobrir na última hora que o lote não está disponível.
-          </p>
-          <p>A Anevena organiza o abastecimento para reduzir essa incerteza.</p>
+          <p>{t.home.promessaP1}</p>
+          <p>{t.home.promessaP2}</p>
         </div>
       </div>
 
       <div className="mt-14 grid gap-px border border-border bg-border md:grid-cols-3">
-        {promessas.map((p, i) => (
+        {t.home.promessas.map((p, i) => (
           <div
             key={p.titulo}
             className="group bg-card p-8 transition-transform hover:-translate-y-1 lg:p-10"
@@ -151,35 +134,29 @@ function Promessa() {
 
       <div className="mt-4 flex flex-wrap items-center gap-4 border border-border bg-secondary px-6 py-5">
         <VMark className="h-4 w-4 shrink-0 text-lime" />
-        <p className="text-sm font-semibold tracking-[0.14em] uppercase">Chegar viva</p>
-        <p className="text-sm text-muted-foreground">
-          A qualidade da entrega também faz parte do produto.
-        </p>
+        <p className="text-sm font-semibold tracking-[0.14em] uppercase">{t.home.chegarViva}</p>
+        <p className="text-sm text-muted-foreground">{t.home.chegarVivaTexto}</p>
       </div>
     </section>
   );
 }
 
 function Conceito() {
+  const { t } = useI18n();
+
   return (
     <section className="bg-navy text-navy-foreground">
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="eyebrow text-lime">Conceito Anevena</p>
+            <p className="eyebrow text-lime">{t.home.conceitoEyebrow}</p>
             <h2 className="mt-5 text-3xl font-semibold sm:text-5xl">
-              Dois fluxos.
-              <span className="block text-lime">Um compromisso.</span>
+              {t.home.conceitoTitle1}
+              <span className="block text-lime">{t.home.conceitoTitle2}</span>
             </h2>
             <div className="mt-7 max-w-lg space-y-4 text-base text-navy-foreground/65">
-              <p>
-                A Anevena existe no ponto onde capacidade de produção encontra necessidade de
-                mercado.
-              </p>
-              <p>
-                É nesse encontro que disponibilidade, volume e prazo precisam convergir. O V central
-                da nossa marca representa exatamente esse compromisso.
-              </p>
+              <p>{t.home.conceitoP1}</p>
+              <p>{t.home.conceitoP2}</p>
             </div>
           </div>
 
@@ -192,14 +169,14 @@ function Conceito() {
 
             <div className="mt-10 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
               <div className="text-right">
-                <p className="eyebrow text-navy-foreground/45">Produção</p>
+                <p className="eyebrow text-navy-foreground/45">{t.home.producao}</p>
                 <div className="relative mt-3 h-px overflow-hidden bg-navy-foreground/15">
                   <span className="flow-line-right absolute inset-y-0 left-0 w-1/3 bg-lime" />
                 </div>
               </div>
               <VMark className="h-6 w-6 shrink-0 text-lime" />
               <div>
-                <p className="eyebrow text-navy-foreground/45">Cliente</p>
+                <p className="eyebrow text-navy-foreground/45">{t.home.cliente}</p>
                 <div className="relative mt-3 h-px overflow-hidden bg-navy-foreground/15">
                   <span className="flow-line-left absolute inset-y-0 right-0 w-1/3 bg-lime" />
                 </div>
@@ -207,7 +184,7 @@ function Conceito() {
             </div>
 
             <p className="mt-10 text-center text-[11px] font-semibold tracking-[0.18em] text-navy-foreground/45 uppercase">
-              Produção → V ← Cliente
+              {t.home.fluxo}
             </p>
           </div>
         </div>
@@ -216,86 +193,62 @@ function Conceito() {
   );
 }
 
-const categoriasHome: { nome: Categoria; para: string; cta: string }[] = [
-  {
-    nome: "Ornamentais",
-    para: "Garden centers, paisagistas, viveiristas e revendedores.",
-    cta: "Ver ornamentais",
-  },
-  {
-    nome: "Frutíferas",
-    para: "Produtores, viveiristas e projetos comerciais.",
-    cta: "Ver frutíferas",
-  },
-  {
-    nome: "Nativas",
-    para: "Restauração florestal, compensação ambiental, paisagismo e projetos ambientais.",
-    cta: "Ver nativas",
-  },
-];
-
 function Catalogo() {
+  const { t } = useI18n();
+
   return (
     <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
-      <h2 className="text-3xl font-semibold sm:text-4xl">O que você precisa plantar?</h2>
+      <h2 className="text-3xl font-semibold sm:text-4xl">{t.home.catalogoTitle}</h2>
 
       <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-3">
-        {categoriasHome.map((c) => (
-          <Link
-            key={c.nome}
-            to="/produtos"
-            search={{ categoria: c.nome }}
-            className="group bg-card p-8 transition-transform hover:-translate-y-1 lg:p-10"
-          >
-            <h3 className="text-2xl font-semibold tracking-tight uppercase">{c.nome}</h3>
-            <p className="mt-4 text-sm text-muted-foreground">{c.para}</p>
-            <span className="mt-10 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.14em] uppercase">
-              <VMark className="h-3 w-3 text-lime transition-transform group-hover:translate-y-0.5" />
-              {c.cta}
-            </span>
-          </Link>
-        ))}
+        {categorias.map((c, i) => {
+          const card = t.home.catalogoCards[i]!;
+          return (
+            <Link
+              key={c}
+              to="/produtos"
+              search={{ categoria: c }}
+              className="group bg-card p-8 transition-transform hover:-translate-y-1 lg:p-10"
+            >
+              <h3 className="text-2xl font-semibold tracking-tight uppercase">{t.categorias[c]}</h3>
+              <p className="mt-4 text-sm text-muted-foreground">{card.para}</p>
+              <span className="mt-10 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.14em] uppercase">
+                <VMark className="h-3 w-3 text-lime transition-transform group-hover:translate-y-0.5" />
+                {card.cta}
+              </span>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
 }
 
 function Formatos() {
-  const itens = [
-    {
-      img: invitro,
-      titulo: "Plântula in vitro",
-      texto: "Para clientes que realizam sua própria aclimatação.",
-      publico: ["Viveiristas", "Produtores", "Operações profissionais"],
-    },
-    {
-      img: aclimatada,
-      titulo: "Planta aclimatada",
-      texto: "Produto preparado para continuidade do cultivo ou revenda.",
-      publico: ["Garden centers", "Paisagistas", "Revendedores", "Projetos"],
-    },
-  ];
+  const { t } = useI18n();
+  const imgs = [invitro, aclimatada];
+  const titulos = [t.formatos["Plântula in vitro"], t.formatos["Planta aclimatada"]];
 
   return (
     <section className="border-y border-border bg-secondary">
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
-        <p className="eyebrow text-muted-foreground">Formatos de entrega</p>
+        <p className="eyebrow text-muted-foreground">{t.home.formatosEyebrow}</p>
         <div className="mt-10 grid gap-8 md:grid-cols-2">
-          {itens.map((i) => (
-            <article key={i.titulo} className="border border-border bg-card">
+          {t.home.formatosItens.map((item, i) => (
+            <article key={titulos[i]} className="border border-border bg-card">
               <img
-                src={i.img}
-                alt={i.titulo}
+                src={imgs[i]}
+                alt={titulos[i]}
                 loading="lazy"
                 width={1200}
                 height={912}
                 className="aspect-[4/3] w-full object-cover"
               />
               <div className="p-7">
-                <h3 className="text-xl font-semibold tracking-tight uppercase">{i.titulo}</h3>
-                <p className="mt-3 text-sm text-muted-foreground">{i.texto}</p>
+                <h3 className="text-xl font-semibold tracking-tight uppercase">{titulos[i]}</h3>
+                <p className="mt-3 text-sm text-muted-foreground">{item.texto}</p>
                 <ul className="mt-6 flex flex-wrap gap-2">
-                  {i.publico.map((p) => (
+                  {item.publico.map((p) => (
                     <li
                       key={p}
                       className="border border-border px-2.5 py-1 text-[11px] text-muted-foreground"
@@ -313,29 +266,21 @@ function Formatos() {
   );
 }
 
-const indicadores = [
-  { valor: "—", unidade: "mil", label: "plantas em programação" },
-  { valor: "—", unidade: "", label: "espécies disponíveis" },
-  { valor: "—", unidade: "", label: "lotes ativos" },
-  { valor: "—", unidade: "dias", label: "prazo médio" },
-];
-
 function Escala() {
+  const { t } = useI18n();
+
   return (
     <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:items-end">
-        <h2 className="text-3xl font-semibold sm:text-4xl">Operação em escala.</h2>
-        <p className="text-sm text-muted-foreground">
-          Indicadores operacionais em consolidação. Os dados abaixo são atualizados conforme a
-          programação de abastecimento vigente.
-        </p>
+        <h2 className="text-3xl font-semibold sm:text-4xl">{t.home.escalaTitle}</h2>
+        <p className="text-sm text-muted-foreground">{t.home.escalaTexto}</p>
       </div>
 
       <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-        {indicadores.map((i) => (
+        {t.home.indicadores.map((i) => (
           <div key={i.label} className="bg-card p-8">
             <p className="tabular text-5xl font-semibold text-navy">
-              {i.valor}
+              —
               {i.unidade && (
                 <span className="ml-2 text-lg font-medium text-muted-foreground">{i.unidade}</span>
               )}
@@ -351,11 +296,13 @@ function Escala() {
 }
 
 function ComoFuncionaResumo() {
+  const { t } = useI18n();
+
   return (
     <section className="relative overflow-hidden border-y border-border">
       <img
         src={logistics}
-        alt="Expedição de lotes de plantas em doca de carregamento"
+        alt={t.home.logisticaAlt}
         loading="lazy"
         width={1600}
         height={1008}
@@ -363,16 +310,16 @@ function ComoFuncionaResumo() {
       />
       <div className="relative bg-navy/88">
         <div className="mx-auto max-w-7xl px-5 py-20 text-navy-foreground lg:px-8 lg:py-28">
-          <p className="eyebrow text-lime">Como funciona</p>
+          <p className="eyebrow text-lime">{t.home.comoFuncionaEyebrow}</p>
           <h2 className="mt-5 max-w-2xl text-3xl font-semibold sm:text-4xl">
-            Do pedido à expedição, um processo com etapas visíveis.
+            {t.home.comoFuncionaTitle}
           </h2>
           <Link
             to="/como-funciona"
             className="mt-10 inline-flex items-center gap-2 border border-navy-foreground/25 px-6 py-4 text-[11px] font-semibold tracking-[0.16em] uppercase transition-colors hover:border-lime hover:text-lime"
           >
             <VMark className="h-3 w-3 text-lime" />
-            Ver as cinco etapas
+            {t.home.comoFuncionaCta}
           </Link>
         </div>
       </div>
@@ -381,16 +328,15 @@ function ComoFuncionaResumo() {
 }
 
 function CtaComercial() {
+  const { t } = useI18n();
+
   return (
     <section id="consulta" className="bg-navy text-navy-foreground">
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div>
-            <h2 className="text-3xl font-semibold sm:text-5xl">Qual é a sua próxima necessidade?</h2>
-            <p className="mt-6 max-w-md text-base text-navy-foreground/65">
-              Informe espécie, quantidade e prazo. Nós verificamos a melhor programação de
-              abastecimento.
-            </p>
+            <h2 className="text-3xl font-semibold sm:text-5xl">{t.home.ctaTitle}</h2>
+            <p className="mt-6 max-w-md text-base text-navy-foreground/65">{t.home.ctaTexto}</p>
           </div>
           <ConsultaForm />
         </div>
