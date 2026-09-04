@@ -848,8 +848,23 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
+function makeFallback(lang: Lang): Ctx {
+  const t = dicts[lang];
+  return {
+    lang,
+    setLang: () => {},
+    t,
+    qtd: (n) =>
+      n === null
+        ? t.catalogo.sobConsulta
+        : `${n.toLocaleString(t.numberLocale)} ${t.catalogo.unidades}`,
+    prazo: (d) => (d === null ? t.catalogo.aDefinir : `${d} ${t.catalogo.diasLabel}`),
+    nomeProduto: (slug, fallback) => t.produtoNomes[slug] ?? fallback,
+  };
+}
+
+const fallbackCtx = makeFallback("pt");
+
 export function useI18n(): Ctx {
-  const ctx = useContext(I18nContext);
-  if (!ctx) throw new Error("useI18n must be used within I18nProvider");
-  return ctx;
+  return useContext(I18nContext) ?? fallbackCtx;
 }
