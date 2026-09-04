@@ -3,8 +3,6 @@ import { Search } from "lucide-react";
 import {
   categorias,
   formatos,
-  formatPrazo,
-  formatQtd,
   produtos,
   statusList,
   whatsappLink,
@@ -14,6 +12,7 @@ import {
 } from "@/lib/catalog";
 import { StatusTag } from "./StatusTag";
 import { VMark } from "./Logo";
+import { useI18n } from "@/lib/i18n";
 
 type Mode = "cards" | "tabela";
 
@@ -48,6 +47,7 @@ export function CatalogBrowser({
   mode?: Mode;
   initialCategoria?: Categoria | null;
 }) {
+  const { t, qtd, prazo, nomeProduto } = useI18n();
   const [busca, setBusca] = useState("");
   const [cat, setCat] = useState<Categoria | null>(initialCategoria);
   const [fmt, setFmt] = useState<Formato | null>(null);
@@ -60,7 +60,11 @@ export function CatalogBrowser({
     const min = Number(minQtd) || 0;
     const prazoMax = Number(maxPrazo) || Infinity;
     return produtos.filter((p) => {
-      if (q && !`${p.nome} ${p.cientifico}`.toLowerCase().includes(q)) return false;
+      if (
+        q &&
+        !`${p.nome} ${nomeProduto(p.slug, p.nome)} ${p.cientifico}`.toLowerCase().includes(q)
+      )
+        return false;
       if (cat && p.categoria !== cat) return false;
       if (fmt && p.formato !== fmt) return false;
       if (st && p.status !== st) return false;
@@ -68,7 +72,7 @@ export function CatalogBrowser({
       if (prazoMax !== Infinity && (p.prazoDias ?? Infinity) > prazoMax) return false;
       return true;
     });
-  }, [busca, cat, fmt, st, minQtd, maxPrazo]);
+  }, [busca, cat, fmt, st, minQtd, maxPrazo, nomeProduto]);
 
   return (
     <div>
@@ -78,37 +82,44 @@ export function CatalogBrowser({
           <input
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Qual planta você procura?"
-            aria-label="Buscar planta"
+            placeholder={t.catalogo.buscaPlaceholder}
+            aria-label={t.catalogo.buscaLabel}
             className="w-full bg-transparent text-base outline-none placeholder:text-muted-foreground"
           />
         </div>
 
         <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto]">
           <div className="flex flex-wrap gap-2">
-            <Chip active={!cat && !fmt && !st} onClick={() => { setCat(null); setFmt(null); setSt(null); }}>
-              Todos
+            <Chip
+              active={!cat && !fmt && !st}
+              onClick={() => {
+                setCat(null);
+                setFmt(null);
+                setSt(null);
+              }}
+            >
+              {t.catalogo.todos}
             </Chip>
             {categorias.map((c) => (
               <Chip key={c} active={cat === c} onClick={() => setCat(cat === c ? null : c)}>
-                {c}
+                {t.categorias[c]}
               </Chip>
             ))}
             {formatos.map((f) => (
               <Chip key={f} active={fmt === f} onClick={() => setFmt(fmt === f ? null : f)}>
-                {f}
+                {t.formatos[f]}
               </Chip>
             ))}
             {statusList.map((s) => (
               <Chip key={s} active={st === s} onClick={() => setSt(st === s ? null : s)}>
-                {s}
+                {t.status[s]}
               </Chip>
             ))}
           </div>
 
           <div className="flex flex-wrap gap-3">
             <label className="flex items-center gap-2 border border-border px-3 py-2 text-xs text-muted-foreground">
-              Qtd. mínima
+              {t.catalogo.qtdMinima}
               <input
                 inputMode="numeric"
                 value={minQtd}
@@ -118,12 +129,12 @@ export function CatalogBrowser({
               />
             </label>
             <label className="flex items-center gap-2 border border-border px-3 py-2 text-xs text-muted-foreground">
-              Prazo até
+              {t.catalogo.prazoAte}
               <input
                 inputMode="numeric"
                 value={maxPrazo}
                 onChange={(e) => setMaxPrazo(e.target.value.replace(/\D/g, ""))}
-                placeholder="dias"
+                placeholder={t.catalogo.dias}
                 className="tabular w-16 bg-transparent text-right text-foreground outline-none"
               />
             </label>
@@ -132,7 +143,7 @@ export function CatalogBrowser({
       </div>
 
       <p className="tabular mt-5 text-xs tracking-[0.12em] text-muted-foreground uppercase">
-        {lista.length} resultado{lista.length === 1 ? "" : "s"}
+        {lista.length} {lista.length === 1 ? t.catalogo.resultado : t.catalogo.resultados}
       </p>
 
       {mode === "tabela" ? (
@@ -141,7 +152,14 @@ export function CatalogBrowser({
           <table className="hidden w-full border-collapse border border-border bg-card text-left lg:table">
             <thead>
               <tr className="border-b border-border bg-secondary">
-                {["Espécie", "Categoria", "Formato", "Disponibilidade", "Prazo", "Ação"].map((h) => (
+                {[
+                  t.catalogo.thEspecie,
+                  t.catalogo.thCategoria,
+                  t.catalogo.thFormato,
+                  t.catalogo.thDisponibilidade,
+                  t.catalogo.thPrazo,
+                  t.catalogo.thAcao,
+                ].map((h) => (
                   <th
                     key={h}
                     className="px-5 py-3.5 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase"
@@ -153,26 +171,38 @@ export function CatalogBrowser({
             </thead>
             <tbody>
               {lista.map((p) => (
-                <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-secondary/60">
+                <tr
+                  key={p.slug}
+                  className="border-b border-border last:border-0 hover:bg-secondary/60"
+                >
                   <td className="px-5 py-4">
-                    <span className="font-medium">{p.nome}</span>
-                    <span className="block text-xs text-muted-foreground italic">{p.cientifico}</span>
+                    <span className="font-medium">{nomeProduto(p.slug, p.nome)}</span>
+                    <span className="block text-xs text-muted-foreground italic">
+                      {p.cientifico}
+                    </span>
                   </td>
-                  <td className="px-5 py-4 text-sm text-muted-foreground">{p.categoria}</td>
-                  <td className="px-5 py-4 text-sm text-muted-foreground">{p.formato}</td>
-                  <td className="tabular px-5 py-4 text-sm font-medium">{formatQtd(p.disponibilidade)}</td>
-                  <td className="tabular px-5 py-4 text-sm">{formatPrazo(p.prazoDias)}</td>
+                  <td className="px-5 py-4 text-sm text-muted-foreground">
+                    {t.categorias[p.categoria]}
+                  </td>
+                  <td className="px-5 py-4 text-sm text-muted-foreground">{t.formatos[p.formato]}</td>
+                  <td className="tabular px-5 py-4 text-sm font-medium">
+                    {qtd(p.disponibilidade)}
+                  </td>
+                  <td className="tabular px-5 py-4 text-sm">{prazo(p.prazoDias)}</td>
                   <td className="px-5 py-4">
                     <a
                       href={whatsappLink(
-                        `Olá. Gostaria de consultar disponibilidade de ${p.nome}, aproximadamente ${p.disponibilidade ?? 1000} unidades.`,
+                        t.whatsapp.produto(
+                          nomeProduto(p.slug, p.nome),
+                          p.disponibilidade ?? 1000,
+                        ),
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.12em] text-navy uppercase hover:text-lime-foreground"
                     >
                       <VMark className="h-3 w-3 text-lime" />
-                      Consultar
+                      {t.catalogo.consultar}
                     </a>
                   </td>
                 </tr>
@@ -195,45 +225,41 @@ export function CatalogBrowser({
         </div>
       )}
 
-      {lista.length === 0 && (
-        <p className="mt-8 text-sm text-muted-foreground">
-          Nenhum lote corresponde aos filtros. Fale com a equipe comercial para verificar
-          programação futura.
-        </p>
-      )}
+      {lista.length === 0 && <p className="mt-8 text-sm text-muted-foreground">{t.catalogo.vazio}</p>}
     </div>
   );
 }
 
 export function ProdutoCard({ slug }: { slug: string }) {
+  const { t, qtd, prazo, nomeProduto } = useI18n();
   const p = produtos.find((x) => x.slug === slug)!;
+  const nome = nomeProduto(p.slug, p.nome);
+
   return (
     <article className="group border border-border bg-card p-5 transition-transform hover:-translate-y-0.5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="truncate text-lg font-semibold">{p.nome}</h3>
+          <h3 className="truncate text-lg font-semibold">{nome}</h3>
           <p className="truncate text-xs text-muted-foreground italic">{p.cientifico}</p>
         </div>
         <StatusTag status={p.status} />
       </div>
 
       <dl className="mt-5 grid grid-cols-2 gap-px border border-border bg-border">
-        <Cell label="Categoria" value={p.categoria} />
-        <Cell label="Formato" value={p.formato} />
-        <Cell label="Disponibilidade" value={formatQtd(p.disponibilidade)} strong />
-        <Cell label="Prazo estimado" value={formatPrazo(p.prazoDias)} strong />
+        <Cell label={t.catalogo.thCategoria} value={t.categorias[p.categoria]} />
+        <Cell label={t.catalogo.thFormato} value={t.formatos[p.formato]} />
+        <Cell label={t.catalogo.thDisponibilidade} value={qtd(p.disponibilidade)} strong />
+        <Cell label={t.catalogo.prazoEstimado} value={prazo(p.prazoDias)} strong />
       </dl>
 
       <a
-        href={whatsappLink(
-          `Olá. Gostaria de consultar disponibilidade de ${p.nome}, aproximadamente ${p.disponibilidade ?? 1000} unidades.`,
-        )}
+        href={whatsappLink(t.whatsapp.produto(nome, p.disponibilidade ?? 1000))}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-5 inline-flex w-full items-center justify-center gap-2 border border-navy px-4 py-3 text-[11px] font-semibold tracking-[0.14em] text-navy uppercase transition-colors hover:bg-navy hover:text-navy-foreground"
       >
         <VMark className="h-3 w-3 text-lime" />
-        Solicitar este lote
+        {t.catalogo.solicitarLote}
       </a>
     </article>
   );
@@ -243,7 +269,9 @@ function Cell({ label, value, strong }: { label: string; value: string; strong?:
   return (
     <div className="bg-card px-3.5 py-3">
       <dt className="eyebrow text-muted-foreground">{label}</dt>
-      <dd className={`tabular mt-1 text-sm ${strong ? "font-semibold" : "text-graphite"}`}>{value}</dd>
+      <dd className={`tabular mt-1 text-sm ${strong ? "font-semibold" : "text-graphite"}`}>
+        {value}
+      </dd>
     </div>
   );
 }
