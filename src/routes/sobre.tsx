@@ -51,7 +51,7 @@ function Sobre() {
           </div>
 
           <img
-            src={logistics}
+            src={expedicaoAnevenaAsset.url}
             alt={t.sobre.imgAlt}
             loading="lazy"
             width={1600}
