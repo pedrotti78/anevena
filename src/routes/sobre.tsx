@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout, PageHeader } from "@/components/anevena/Layout";
 import { VMark } from "@/components/anevena/Logo";
-import logistics from "@/assets/logistics.jpg";
+import expedicaoAnevenaAsset from "@/assets/expedicao-anevena.png.asset.json";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/sobre")({
@@ -51,7 +51,7 @@ function Sobre() {
           </div>
 
           <img
-            src={logistics}
+            src={expedicaoAnevenaAsset.url}
             alt={t.sobre.imgAlt}
             loading="lazy"
             width={1600}
