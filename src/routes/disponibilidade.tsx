@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout, PageHeader } from "@/components/anevena/Layout";
 import { CatalogBrowser } from "@/components/anevena/CatalogBrowser";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/disponibilidade")({
   head: () => ({
@@ -25,12 +26,14 @@ export const Route = createFileRoute("/disponibilidade")({
 });
 
 function Disponibilidade() {
+  const { t } = useI18n();
+
   return (
     <Layout>
       <PageHeader
-        eyebrow="Programação vigente"
-        title="O que está disponível agora."
-        description="Volumes e prazos indicativos por lote. A confirmação é feita por consulta comercial."
+        eyebrow={t.disponibilidade.eyebrow}
+        title={t.disponibilidade.title}
+        description={t.disponibilidade.description}
       />
       <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <CatalogBrowser mode="tabela" />

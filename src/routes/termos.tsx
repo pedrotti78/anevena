@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout, PageHeader } from "@/components/anevena/Layout";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/termos")({
   head: () => ({
@@ -17,22 +18,15 @@ export const Route = createFileRoute("/termos")({
 });
 
 function Termos() {
+  const { t } = useI18n();
+
   return (
     <Layout>
-      <PageHeader eyebrow="Legal" title="Termos de Uso" />
+      <PageHeader eyebrow={t.termos.eyebrow} title={t.termos.title} />
       <div className="mx-auto max-w-3xl space-y-5 px-5 py-16 text-sm text-muted-foreground lg:px-8 lg:py-24">
-        <p>
-          As informações de disponibilidade, volume e prazo apresentadas neste site são
-          indicativas e estão sujeitas a confirmação comercial.
-        </p>
-        <p>
-          O envio de uma consulta não constitui pedido, reserva de lote ou compromisso de
-          fornecimento. Condições comerciais são formalizadas em proposta específica.
-        </p>
-        <p>
-          Conteúdo, marca e materiais deste site pertencem à Anevena e não podem ser reproduzidos
-          sem autorização.
-        </p>
+        <p>{t.termos.p1}</p>
+        <p>{t.termos.p2}</p>
+        <p>{t.termos.p3}</p>
       </div>
     </Layout>
   );

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Layout, PageHeader } from "@/components/anevena/Layout";
 import { CatalogBrowser } from "@/components/anevena/CatalogBrowser";
 import type { Categoria } from "@/lib/catalog";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/produtos")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -30,13 +31,14 @@ export const Route = createFileRoute("/produtos")({
 
 function Produtos() {
   const { categoria } = Route.useSearch();
+  const { t } = useI18n();
 
   return (
     <Layout>
       <PageHeader
-        eyebrow="Catálogo"
-        title="O que você precisa plantar?"
-        description="Ornamentais, frutíferas e nativas — com espécie, formato, disponibilidade e prazo por lote."
+        eyebrow={t.produtos.eyebrow}
+        title={t.produtos.title}
+        description={t.produtos.description}
       />
       <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <CatalogBrowser mode="cards" initialCategoria={categoria ?? null} />

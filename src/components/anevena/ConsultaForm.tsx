@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { z } from "zod";
 import { VMark } from "./Logo";
+import { useI18n } from "@/lib/i18n";
 
-const schema = z.object({
-  especie: z.string().trim().min(2, "Informe a espécie").max(120),
-  quantidade: z.string().trim().min(1, "Informe a quantidade").max(20),
-  prazo: z.string().trim().max(60).optional().or(z.literal("")),
-  nome: z.string().trim().min(2, "Informe seu nome").max(100),
-  empresa: z.string().trim().max(120).optional().or(z.literal("")),
-  telefone: z.string().trim().min(8, "Informe um telefone válido").max(30),
-  email: z.string().trim().email("E-mail inválido").max(255),
-});
-
-type Values = z.infer<typeof schema>;
+interface Values {
+  especie: string;
+  quantidade: string;
+  prazo: string;
+  nome: string;
+  empresa: string;
+  telefone: string;
+  email: string;
+}
 
 const initial: Values = {
   especie: "",
@@ -24,20 +23,31 @@ const initial: Values = {
   email: "",
 };
 
-const fields: { name: keyof Values; label: string; type?: string; full?: boolean }[] = [
-  { name: "especie", label: "Espécie" },
-  { name: "quantidade", label: "Quantidade" },
-  { name: "prazo", label: "Prazo desejado" },
-  { name: "nome", label: "Nome" },
-  { name: "empresa", label: "Empresa" },
-  { name: "telefone", label: "Telefone / WhatsApp" },
-  { name: "email", label: "E-mail", type: "email", full: true },
-];
-
 export function ConsultaForm({ defaultEspecie = "" }: { defaultEspecie?: string }) {
+  const { t } = useI18n();
   const [values, setValues] = useState<Values>({ ...initial, especie: defaultEspecie });
   const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({});
   const [sent, setSent] = useState(false);
+
+  const schema = z.object({
+    especie: z.string().trim().min(2, t.form.errEspecie).max(120),
+    quantidade: z.string().trim().min(1, t.form.errQuantidade).max(20),
+    prazo: z.string().trim().max(60).optional().or(z.literal("")),
+    nome: z.string().trim().min(2, t.form.errNome).max(100),
+    empresa: z.string().trim().max(120).optional().or(z.literal("")),
+    telefone: z.string().trim().min(8, t.form.errTelefone).max(30),
+    email: z.string().trim().email(t.form.errEmail).max(255),
+  });
+
+  const fields: { name: keyof Values; label: string; type?: string; full?: boolean }[] = [
+    { name: "especie", label: t.form.especie },
+    { name: "quantidade", label: t.form.quantidade },
+    { name: "prazo", label: t.form.prazo },
+    { name: "nome", label: t.form.nome },
+    { name: "empresa", label: t.form.empresa },
+    { name: "telefone", label: t.form.telefone },
+    { name: "email", label: t.form.email, type: "email", full: true },
+  ];
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -63,12 +73,8 @@ export function ConsultaForm({ defaultEspecie = "" }: { defaultEspecie?: string 
           <VMark className="h-6 w-6" />
           <span className="converge-in-right h-px flex-1 bg-lime" />
         </div>
-        <p className="mt-6 text-lg font-medium text-navy-foreground">
-          Recebemos sua necessidade.
-        </p>
-        <p className="mt-2 text-sm text-navy-foreground/60">
-          Nossa equipe comercial entrará em contato.
-        </p>
+        <p className="mt-6 text-lg font-medium text-navy-foreground">{t.form.sucesso}</p>
+        <p className="mt-2 text-sm text-navy-foreground/60">{t.form.sucessoSub}</p>
       </div>
     );
   }
@@ -77,10 +83,7 @@ export function ConsultaForm({ defaultEspecie = "" }: { defaultEspecie?: string 
     <form onSubmit={submit} noValidate className="grid gap-5 sm:grid-cols-2">
       {fields.map((f) => (
         <div key={f.name} className={f.full ? "sm:col-span-2" : undefined}>
-          <label
-            htmlFor={f.name}
-            className="eyebrow block text-navy-foreground/55"
-          >
+          <label htmlFor={f.name} className="eyebrow block text-navy-foreground/55">
             {f.label}
           </label>
           <input
@@ -91,9 +94,7 @@ export function ConsultaForm({ defaultEspecie = "" }: { defaultEspecie?: string 
             onChange={(e) => setValues((v) => ({ ...v, [f.name]: e.target.value }))}
             className="mt-2 w-full border-b border-navy-foreground/25 bg-transparent pb-2.5 text-base text-navy-foreground outline-none transition-colors focus:border-lime"
           />
-          {errors[f.name] && (
-            <p className="mt-1.5 text-xs text-lime">{errors[f.name]}</p>
-          )}
+          {errors[f.name] && <p className="mt-1.5 text-xs text-lime">{errors[f.name]}</p>}
         </div>
       ))}
 
@@ -103,7 +104,7 @@ export function ConsultaForm({ defaultEspecie = "" }: { defaultEspecie?: string 
           className="group inline-flex w-full items-center justify-center gap-2 bg-lime px-6 py-4 text-[11px] font-semibold tracking-[0.16em] text-lime-foreground uppercase transition-colors hover:bg-lime/85 sm:w-auto"
         >
           <VMark className="h-3 w-3 -translate-x-1 transition-transform group-hover:translate-x-0" />
-          Consultar disponibilidade
+          {t.form.submit}
         </button>
       </div>
     </form>

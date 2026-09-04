@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout, PageHeader } from "@/components/anevena/Layout";
 import { VMark } from "@/components/anevena/Logo";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/como-funciona")({
   head: () => ({
@@ -24,29 +25,26 @@ export const Route = createFileRoute("/como-funciona")({
   component: ComoFunciona,
 });
 
-const etapas = [
-  { n: "01", titulo: "Consulte", texto: "Encontre espécies e disponibilidade." },
-  { n: "02", titulo: "Planeje", texto: "Defina volume e janela de entrega." },
-  { n: "03", titulo: "Confirme", texto: "Receba proposta e condições comerciais." },
-  { n: "04", titulo: "Acompanhe", texto: "Acompanhe preparação e expedição." },
-  { n: "05", titulo: "Receba", texto: "Receba o lote no prazo combinado." },
-];
-
 function ComoFunciona() {
+  const { t } = useI18n();
+  const etapas = t.comoFunciona.etapas;
+
   return (
     <Layout>
       <PageHeader
-        eyebrow="Processo"
-        title="Cinco etapas até o lote na sua operação."
-        description="Cada etapa existe para reduzir improviso e tornar o abastecimento previsível."
+        eyebrow={t.comoFunciona.eyebrow}
+        title={t.comoFunciona.title}
+        description={t.comoFunciona.description}
       />
 
       <div className="mx-auto max-w-4xl px-5 py-16 lg:px-8 lg:py-24">
         <ol>
           {etapas.map((e, i) => (
-            <li key={e.n}>
+            <li key={e.titulo}>
               <div className="group grid grid-cols-[auto_minmax(0,1fr)] gap-6 border border-border bg-card p-6 transition-transform hover:-translate-y-0.5 lg:p-8">
-                <span className="tabular text-3xl font-semibold text-lime-foreground/25">{e.n}</span>
+                <span className="tabular text-3xl font-semibold text-lime-foreground/25">
+                  0{i + 1}
+                </span>
                 <div className="min-w-0">
                   <h2 className="text-xl font-semibold tracking-tight uppercase">{e.titulo}</h2>
                   <p className="mt-2 text-sm text-muted-foreground">{e.texto}</p>
@@ -62,13 +60,13 @@ function ComoFunciona() {
         </ol>
 
         <div className="mt-14 border border-border bg-secondary p-8 text-center">
-          <p className="text-base font-medium">Pronto para verificar sua próxima necessidade?</p>
+          <p className="text-base font-medium">{t.comoFunciona.ctaTexto}</p>
           <Link
             to="/contato"
             className="mt-6 inline-flex items-center gap-2 bg-lime px-6 py-4 text-[11px] font-semibold tracking-[0.16em] text-lime-foreground uppercase"
           >
             <VMark className="h-3 w-3" />
-            Consultar disponibilidade
+            {t.common.consultarDisponibilidade}
           </Link>
         </div>
       </div>
